@@ -1,4 +1,4 @@
-package ShapeComparison;
+package shapecomparison;
 
 /**
  * Created by miste on 4/28/2016.

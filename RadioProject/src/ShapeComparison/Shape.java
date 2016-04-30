@@ -1,6 +1,6 @@
-package ShapeComparison;
+package shapecomparison;
 
-import Utilities.Vector2;
+import utilities.Vector2;
 
 /**
  * Created by miste on 4/28/2016.
@@ -42,13 +42,13 @@ public class Shape
     }
 
 
-    public ShapeResult Recognize(ShapeLibrary multiStrokeLibrary) {
+    public ShapeResult Recognize(ShapeLibrary shapeLibrary) {
 
         ShapeResult result = new ShapeResult();
         result.Score = Float.MAX_VALUE;
         result.Name = "";
 
-        for (Shape shape : multiStrokeLibrary.Library)
+        for (Shape shape : shapeLibrary.library)
         {
             float distance = GreedyCloudMatch(this.Points, shape.Points);
 
@@ -215,7 +215,7 @@ public class Shape
 
     private static float CloudDistance(ShapePoint[] points1, ShapePoint[] points2, int startIndex) {
         boolean[] matched = new boolean[points1.length];
-        Array.Clear(matched, 0, points1.length);
+        //Array.Clear(matched, 0, points1.length); Should default to false regardless
 
         float sum = 0;
         int i = startIndex;

@@ -1,6 +1,6 @@
-package ShapeComparison;
+package shapecomparison;
 
-import Utilities.Vector2;
+import utilities.Vector2;
 
 /**
  * Created by miste on 4/28/2016.
