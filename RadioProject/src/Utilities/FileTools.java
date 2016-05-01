@@ -1,6 +1,7 @@
 package utilities;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,8 @@ import java.nio.file.Paths;
  * Created by Brayden on 4/30/2016.
  */
 public class FileTools {
+
+    static File resDirectory = new File("resources//");
 
     /// <summary>
     /// Read contents of a file
@@ -33,9 +36,21 @@ public class FileTools {
     /// <param name="contents">Contents of the file</param>
     public static void Write(String path, String contents) throws IOException {
 
-        BufferedWriter file = new BufferedWriter(new FileWriter(path));
-        file.write(contents);
-        file.close();
+        //Make sure directory exists
+        if(!resDirectory.isDirectory())
+        {
+            resDirectory.mkdir();
+        }
+
+        //Make sure file exists
+        File file = new File(path);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
+        BufferedWriter bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
+        bw.write(contents);
+        bw.close();
     }
 
     /// <summary>
@@ -46,5 +61,12 @@ public class FileTools {
     public static boolean Exists(String path) {
         Path actualPath = Paths.get(path);
         return Files.exists(actualPath);
+    }
+
+    public static byte[] ReadFileToByteArray(String filePath) throws IOException {
+        //Path to file
+        Path path = Paths.get(filePath);
+        byte[] data = Files.readAllBytes(path);
+        return data;
     }
 } 

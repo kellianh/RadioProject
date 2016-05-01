@@ -8,14 +8,17 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.w3c.dom.*;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import utilities.BasicLogger;
+import utilities.ErrorHandler;
 import utilities.FileTools;
 
 /**
@@ -28,20 +31,32 @@ public class ShapeLibrary
     String persistentLibraryPath;
     String xmlContents;
 
-    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    DocumentBuilderFactory docFactory;
+    DocumentBuilder docBuilder;
     Document shapeLibrary;
     public List<Shape> library = new ArrayList<>();
 
 
 
-    public ShapeLibrary(String libraryName) throws ParserConfigurationException, IOException, SAXException {
-        this.libraryName = libraryName;
-        this.libraryFilename = libraryName + ".xml";
-        this.persistentLibraryPath = "resources//"+ libraryFilename;
+    public ShapeLibrary(String libraryName) {
+        try
+        {
+            docFactory = DocumentBuilderFactory.newInstance();
+            docFactory.setIgnoringElementContentWhitespace(true);
+            docBuilder = docFactory.newDocumentBuilder();
 
-        CopyToPersistentPath(false);
-        LoadLibrary();
+            this.libraryName = libraryName;
+            this.libraryFilename = libraryName + ".xml";
+            this.persistentLibraryPath = "resources//"+ libraryFilename;
+
+            CopyToPersistentPath(false);
+            LoadLibrary();
+        }
+        catch (Exception e)
+        {
+            ErrorHandler.HandleException(e,"ShapeLibrary");
+        }
+
 
     }
 
@@ -59,21 +74,24 @@ public class ShapeLibrary
     public void LoadLibrary() throws IOException, SAXException {
 
         // Uses the XML file in resources folder
+        //String xmlContents = FileTools.Read(persistentLibraryPath);
+        //Remove newline if someone prettied it
+        //xmlContents = xmlContents.replaceAll("(\\r|\\n|\\t)", "").trim();
         File xmlContents = new File(persistentLibraryPath);
-
-        shapeLibrary = docBuilder.parse(xmlContents); //possibly or create new doc
+        shapeLibrary = docBuilder.parse(xmlContents);
+        //shapeLibrary = docBuilder.parse(new InputSource(new StringReader(xmlContents))); //possibly or create new doc
         shapeLibrary.getDocumentElement().normalize();
+        //trimWhitespace(shapeLibrary.getFirstChild());
+
         // Get "gesture" elements
         NodeList xmlShapeList = shapeLibrary.getElementsByTagName("shape");
 
         // Parse "gesture" elements and add them to library
-        //for (Node xmlShapeNode : xmlShapeList) {
         for (int i = 0; i < xmlShapeList.getLength(); i++) {
             String shapeName = xmlShapeList.item(i).getAttributes().getNamedItem("name").getNodeValue();
             NodeList xmlPoints = xmlShapeList.item(i).getChildNodes();
             List<ShapePoint> shapePoints = new ArrayList<>();
 
-            //for (Node point : xmlPoints) {
             for(int j = 0; j < xmlPoints.getLength(); j++) {
                 float x = Float.parseFloat(xmlPoints.item(j).getAttributes().getNamedItem("x").getNodeValue());
                 float y = Float.parseFloat(xmlPoints.item(j).getAttributes().getNamedItem("y").getNodeValue());
@@ -81,7 +99,7 @@ public class ShapeLibrary
                 shapePoints.add(new ShapePoint(x, y, shapeID));
             }
 
-            Shape shape = new Shape((ShapePoint[])shapePoints.toArray(), shapeName);
+            Shape shape = new Shape(shapePoints.toArray(new ShapePoint[shapePoints.size()]), shapeName);
             library.add(shape);
         }
     }
@@ -98,7 +116,7 @@ public class ShapeLibrary
             Element shapePoint = shapeLibrary.createElement("point");
             shapePoint.setAttribute("x", Float.toString(m.Point.x));
             shapePoint.setAttribute("y", Float.toString(m.Point.y));
-            shapePoint.setAttribute("id", Float.toString(m.StrokeID));
+            shapePoint.setAttribute("id", Integer.toString(m.StrokeID));
 
             shapeNode.appendChild(shapePoint);
         }
@@ -114,7 +132,7 @@ public class ShapeLibrary
 
             return true;
         } catch (Exception e) {
-            BasicLogger.LogError(e.getMessage(), "ShapeLibrary, LoadLibrary()");
+            BasicLogger.LogError(e.getMessage(), "ShapeLibrary, AddShape()");
             return false;
         }
 
@@ -124,7 +142,6 @@ public class ShapeLibrary
     void CopyToPersistentPath(boolean forceCopy) throws IOException {
 
         if (!FileTools.Exists(persistentLibraryPath) || (FileTools.Exists(persistentLibraryPath) && forceCopy)) {
-            FileTools.Read(libraryName);
             FileTools.Write(persistentLibraryPath, "");
         }
 
@@ -133,12 +150,24 @@ public class ShapeLibrary
     String XmlDocToString(Document xmlDoc) throws TransformerException {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         StringWriter writer = new StringWriter();
         transformer.transform(new DOMSource(xmlDoc), new StreamResult(writer));
         String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
         return output;
     }
-
+/*
+    public static void trimWhitespace(Node node)
+    {
+        NodeList children = node.getChildNodes();
+        for(int i = 0; i < children.getLength(); ++i) {
+            Node child = children.item(i);
+            if(child.getNodeType() == Node.TEXT_NODE) {
+                child.setTextContent(child.getTextContent().trim());
+            }
+            trimWhitespace(child);
+        }
+    }
+*/
 }
 
