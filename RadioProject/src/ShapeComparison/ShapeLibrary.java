@@ -106,7 +106,6 @@ public class ShapeLibrary
 
 
     public boolean AddShape(Shape shape) {
-
         // Create the xml node to add to the xml file
         Element rootElement = shapeLibrary.getDocumentElement();
         Element shapeNode = shapeLibrary.createElement("shape");
@@ -156,18 +155,5 @@ public class ShapeLibrary
         String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
         return output;
     }
-/*
-    public static void trimWhitespace(Node node)
-    {
-        NodeList children = node.getChildNodes();
-        for(int i = 0; i < children.getLength(); ++i) {
-            Node child = children.item(i);
-            if(child.getNodeType() == Node.TEXT_NODE) {
-                child.setTextContent(child.getTextContent().trim());
-            }
-            trimWhitespace(child);
-        }
-    }
-*/
 }
 

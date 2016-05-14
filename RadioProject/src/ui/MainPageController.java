@@ -32,13 +32,18 @@ public class MainPageController
 
     final FileChooser fileChooser = new FileChooser();
     SignalRecognizer recognizer = new SignalRecognizer();
-    ShapeLibrary sl = new ShapeLibrary("test");
+    //ShapeLibrary sl = new ShapeLibrary("dictionary32");
+    ShapeLibrary sl = new ShapeLibrary("dictionary128");
+    //ShapeLibrary sl = new ShapeLibrary("dictionary256");
+    //ShapeLibrary sl = new ShapeLibrary("test");
     Shape currentShape;
 
     public void handlebLoadWav_Click()
     {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("WAV files (*.wav)", "*.wav");
         fileChooser.getExtensionFilters().add(extFilter);
+        File initialPath = new File(new java.io.File("").getAbsolutePath() + "/resources/wavs/");
+        fileChooser.setInitialDirectory(initialPath);
 
         //Show open file dialog
         File file = fileChooser.showOpenDialog(null);
@@ -69,7 +74,7 @@ public class MainPageController
         {
             if(!currentShape.equals(null))
             {
-                currentShape.Name = tfAddShapeName.getText();
+                currentShape.Name = tfAddShapeName.getText().toUpperCase();
                 sl.AddShape(currentShape);
                 MessageBox.ShowInformation("Finished", "Added Shape", "Finished adding shape");
             }

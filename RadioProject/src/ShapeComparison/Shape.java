@@ -22,7 +22,7 @@ public class Shape
     /// This gesture will be resampled to have this much of points. 
     /// Best between 32 and 256
     /// </summary>
-    int NUMBER_OF_POINTS = 256;
+    int NUMBER_OF_POINTS = 128;
 
 
     public Shape(ShapePoint[] points) {
