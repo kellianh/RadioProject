@@ -16,6 +16,6 @@ package rttydecoder;
 public class RTTYDecoderTestCase {
 	public static void main (String [] args){
 		RTTYDecoderHandler rttyDecoderHandler = new RTTYDecoderHandler();
-		rttyDecoderHandler.decodeRttyWavFile("resources//wavs//rtty//rtty_test.wav");
+		rttyDecoderHandler.decodeRttyWavFile("resources//wavs//rtty//rtty_test_hello.wav");
 	}
 }
