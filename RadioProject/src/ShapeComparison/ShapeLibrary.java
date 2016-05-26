@@ -124,14 +124,13 @@ public class ShapeLibrary
         rootElement.appendChild(shapeNode);
 
         try {
-
             // Add the new gesture to the list of gestures
             this.library.add(shape);
             FileTools.Write(persistentLibraryPath, XmlDocToString(shapeLibrary));
 
             return true;
         } catch (Exception e) {
-            BasicLogger.LogError(e.getMessage(), "ShapeLibrary, AddShape()");
+            ErrorHandler.HandleException(e, "ShapeLibrary, AddShape()");
             return false;
         }
 

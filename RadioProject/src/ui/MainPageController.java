@@ -1,15 +1,19 @@
 package ui;
 
+import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import org.xml.sax.SAXException;
 import radiosignals.CWSignal;
+import rttydecoder.RTTYDecoder;
+import rttydecoder.RTTYDecoderHandler;
 import shapecomparison.Shape;
 import shapecomparison.ShapeLibrary;
 import shapecomparison.ShapeResult;
 import signalcomparison.SignalRecognizer;
+import utilities.AudioPlayer;
 import utilities.ErrorHandler;
 import utilities.FileTools;
 import utilities.MessageBox;
@@ -67,21 +71,31 @@ public class MainPageController
                 if(sr.Name.equals("CW")) {
                     //check this.
                     CWSignal cw = new CWSignal(file.getAbsolutePath());
-
+                    AudioPlayer.Play(file.getAbsolutePath());
                     lMessage.setText(cw.GetPlainText());
                 }
-
                 else if(sr.Name.equals("RTTY")) {
-                    //lMessage.setText();
+                    lMessage.setText("(processing...)");
+                    new Thread(new Runnable() {
+                        public void run()
+                        {
+                            RTTYDecoderHandler rttyDecoderHandler = new RTTYDecoderHandler();
+                            RTTYDecoder rttyDecoder = rttyDecoderHandler.decodeRttyWavFile(file.getAbsolutePath());
+                            String s = rttyDecoder.getDecodedText();
+                            Platform.runLater(new Runnable(){
+                                @Override
+                                public void run() {
+                                    lMessage.setText(s);
+                                }
+                            });
+                        }
+                    }).start();
 
                 }
-
-                //Else case:
                 else {
+                    AudioPlayer.Play(file.getAbsolutePath());
                     lMessage.setText("Wave type unable to be decoded.");
                 }
-
-
             } catch (Exception e) {
                 ErrorHandler.HandleException(e, "handlebLoadWav_Click");
             }
