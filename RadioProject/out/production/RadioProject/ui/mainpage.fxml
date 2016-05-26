@@ -1,44 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="277.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <MenuBar BorderPane.alignment="CENTER" />
    </top>
    <bottom>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button mnemonicParsing="false" text="Button" />
-        </items>
-      </ToolBar>
+      <ToolBar nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <items>
+            <TextField fx:id="tfAddShapeName" />
+            <Button fx:id="bAddShapeToLibrary" mnemonicParsing="false" onAction="#handlebAddShapeToLibrary" text="Add Shape to Library" />
+         </items></ToolBar>
    </bottom>
    <left>
       <HBox BorderPane.alignment="CENTER" />
@@ -46,21 +27,48 @@
    <center>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <HBox spacing="15.0">
+            <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="600.0" spacing="15.0">
                <children>
-                  <Button fx:id="bLoadWav" mnemonicParsing="false" onAction="#handlebLoadWav_Click" text="Load Wav" />
-                  <Label text="Currently Loaded: " />
-                  <Label fx:id="lLoadedShape" text="(none)" />
-                  <Label text="Score:" />
-                  <Label fx:id="lLoadedShapeScore" text="(none)" />
+                  <Button fx:id="bLoadWav" defaultButton="true" mnemonicParsing="false" onAction="#handlebLoadWav_Click" text="Load .wav File!" />
                </children>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+            <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="139.0" prefWidth="600.0">
                <children>
-                  <TextField fx:id="tfAddShapeName" />
-                  <Button fx:id="bAddShapeToLibrary" mnemonicParsing="false" onAction="#handlebAddShapeToLibrary" text="Add Shape to Library" />
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="35.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="600.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handlebStopAudioProcessing" text="Stop Audio Processing" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Currently Loaded: " />
+                        <Label fx:id="lLoadedShape" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Score:" />
+                        <Label fx:id="lLoadedShapeScore" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Message:" />
+                        <Label fx:id="lMessage" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
    </center>

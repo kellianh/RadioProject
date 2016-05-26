@@ -23,7 +23,7 @@ public class RTTYDecoderHandler {
 
 	private String audioFilePath = "RadioProject//resources//wavs//rtty//rtty_test.wav";
 
-	public void decodeRttyWavFile(String audioPath) {
+	public RTTYDecoder decodeRttyWavFile(String audioPath) {
 		AudioFormat audioFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, SAMPLERATE, 16, 1, 2, SAMPLERATE, false);
 		DataLine.Info info = new DataLine.Info(TargetDataLine.class, audioFormat, BUFFERSIZE);
 
@@ -56,6 +56,7 @@ public class RTTYDecoderHandler {
 		}
 		System.out.println("Recording...");
 
+/*
 		while(!rttyDecoder.clipIsDone) {
 			try {
 				br.readLine();
@@ -63,6 +64,7 @@ public class RTTYDecoderHandler {
 				e.printStackTrace();
 			}
 		}
+*/
 
 		System.out.println("Stopping...");
 		rttyDecoder.writeWavFile(rttyDecoder.baos.toByteArray(), rttyDecoder.baos.size() / 2, "output.wav");
@@ -76,5 +78,6 @@ public class RTTYDecoderHandler {
 			e.printStackTrace();
 		}
 		System.out.println("Recording stopped.");
+		return rttyDecoder;
 	}
 }

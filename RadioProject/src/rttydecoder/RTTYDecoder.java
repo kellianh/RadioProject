@@ -48,6 +48,9 @@ public class RTTYDecoder implements Runnable {
 
 	private String audioFilePath = "RadioProject//resources//wavs//rtty//rtty_test.wav";
 
+	private String decodedText = "";
+
+
 	public RTTYDecoder(TargetDataLine tdl) {
 		this.tdl = tdl;
 
@@ -235,6 +238,7 @@ public class RTTYDecoder implements Runnable {
 	@Override
 	public void run() {
 		tdl.start();
+		decodedText = "";
 
 		int byteResult = 0;
 		int byteResultp = 0;
@@ -242,7 +246,8 @@ public class RTTYDecoder implements Runnable {
 		
 		while (!Thread.interrupted()) {
 			waitForStartBit();
-
+			if(clipIsDone)
+				break;
 			System.out.print("0 "); // first bit is the start bit, it's zero
 
 			// reading 7 more bits
@@ -266,18 +271,22 @@ public class RTTYDecoder implements Runnable {
 				case 31:
 					mode = RTTYMode.letters;
 					System.out.println(" ^L^");
+					addToDecodedTest(" ^L^");
 					break;
 				case 27:
 					mode = RTTYMode.symbols;
 					System.out.println(" ^F^");
+					addToDecodedTest(" ^F^");
 					break;
 				default:
 					switch (mode) {
 						case letters:
 							System.out.println(" *** " + RTTYLetters[byteResult] + "(" + byteResult + ")");
+							addToDecodedTest(RTTYLetters[byteResult]);
 							break;
 						case symbols:
 							System.out.println(" *** " + RTTYSymbols[byteResult] + "(" + byteResult + ")");
+							addToDecodedTest(RTTYSymbols[byteResult]);
 							break;
 					}
 			}
@@ -285,6 +294,27 @@ public class RTTYDecoder implements Runnable {
 
 		tdl.stop();
 		tdl.close();
+	}
+
+	public void addToDecodedTest(String text)
+	{
+		if(!clipIsDone)
+		{
+			decodedText += " " + text;
+		}
+	}
+
+	public void addToDecodedTest(char letter)
+	{
+		if(!clipIsDone)
+		{
+			decodedText += " " + letter;
+		}
+	}
+
+	public String getDecodedText()
+	{
+		return decodedText;
 	}
 
 	public static void javaAudioPlaySoundExample(String audioFilePath) throws Exception
@@ -301,7 +331,6 @@ public class RTTYDecoder implements Runnable {
 					System.out.println("OPEN");
 				} else if (type == LineEvent.Type.CLOSE) {
 					System.out.println("CLOSE");
-					System.exit(0);
 				} else if (type == LineEvent.Type.START) {
 					clipIsDone = false;
 					System.out.println("START");

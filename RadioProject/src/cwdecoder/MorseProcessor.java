@@ -260,8 +260,8 @@ public class MorseProcessor
         }
 
 
-        this.signal_medium_value    = (int) signal_total_value / signals_length.size();
-        this.silence_medium_value   = (int) silence_total_value / silences_length.size();
+        this.signal_medium_value    = (int) signals_length.size() != 0? signal_total_value / signals_length.size() : 0;
+        this.silence_medium_value   = (int) silences_length.size() != 0? silence_total_value / silences_length.size() : 0;
 
         //System.out.println("signal med val: " + this.signal_medium_value);
         //System.out.println("silence med val: " + this.silence_medium_value);
