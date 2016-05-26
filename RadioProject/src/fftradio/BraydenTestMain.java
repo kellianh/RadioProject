@@ -28,7 +28,7 @@ public class BraydenTestMain extends Application
         Double fftSize = Double.valueOf(512);
         Double sampleRate = Double.valueOf(44100);
 
-        String audioFilePath = "D:\\Brayden\\Dropbox\\My Cloud Data\\Global Documents\\Biola Documents\\Spring 2016\\Software Engineering\\Sound Files\\wavs\\radio-audio-rtty-170-45.wav";
+        String audioFilePath = "D:\\Brayden\\Dropbox\\My Cloud Data\\Global Documents\\Biola Documents\\Spring 2016\\Software Engineering\\Sound Files\\wavs\\4radio-audio-rtty-170-45.wav";
         byte[] audioBytes = ReadFileToByteArray(audioFilePath);
 
         SignalRecognizer recognizer = new SignalRecognizer();

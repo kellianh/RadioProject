@@ -39,10 +39,11 @@ public class MainPageController
     final FileChooser fileChooser = new FileChooser();
     SignalRecognizer recognizer = new SignalRecognizer();
     //ShapeLibrary sl = new ShapeLibrary("dictionary32");
-    ShapeLibrary sl = new ShapeLibrary("dictionary128");
+    ShapeLibrary sl = new ShapeLibrary("dictionary128j");
     //ShapeLibrary sl = new ShapeLibrary("dictionary256");
     //ShapeLibrary sl = new ShapeLibrary("test");
     Shape currentShape;
+    Thread rttyThread;
 
 
     //Main button - Load
@@ -74,23 +75,24 @@ public class MainPageController
                     AudioPlayer.Play(file.getAbsolutePath());
                     lMessage.setText(cw.GetPlainText());
                 }
-                else if(sr.Name.equals("RTTY")) {
+                else if(sr.Name.equals("RTTY") && sr.Score < 0.1f) {
                     lMessage.setText("(processing...)");
-                    new Thread(new Runnable() {
+                    AudioPlayer.Stop();
+                    rttyThread = new Thread(new Runnable() {
                         public void run()
                         {
-                            RTTYDecoderHandler rttyDecoderHandler = new RTTYDecoderHandler();
-                            RTTYDecoder rttyDecoder = rttyDecoderHandler.decodeRttyWavFile(file.getAbsolutePath());
-                            String s = rttyDecoder.getDecodedText();
-                            Platform.runLater(new Runnable(){
-                                @Override
-                                public void run() {
-                                    lMessage.setText(s);
-                                }
-                            });
+                                RTTYDecoderHandler rttyDecoderHandler = new RTTYDecoderHandler();
+                                RTTYDecoder rttyDecoder = rttyDecoderHandler.decodeRttyWavFile(file.getAbsolutePath());
+                                String s = rttyDecoder.getDecodedText();
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        lMessage.setText(s);
+                                    }
+                                });
                         }
-                    }).start();
-
+                    });
+                    rttyThread.start();
                 }
                 else {
                     AudioPlayer.Play(file.getAbsolutePath());
@@ -105,7 +107,6 @@ public class MainPageController
             //Operation aborted
         }
     }
-
 
     //add to databases
     public void handlebAddShapeToLibrary()
@@ -123,5 +124,10 @@ public class MainPageController
         }
         else
             MessageBox.ShowInformation("No title", "No title", "Please add a title to the shape you are adding");
+    }
+
+    public void handlebStopAudioProcessing()
+    {
+        AudioPlayer.Stop();
     }
 }

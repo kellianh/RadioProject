@@ -34,6 +34,11 @@
             </HBox>
             <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="139.0" prefWidth="600.0">
                <children>
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="35.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="600.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#handlebStopAudioProcessing" text="Stop Audio Processing" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="600.0">
                      <children>
                         <Label text="Currently Loaded: " />

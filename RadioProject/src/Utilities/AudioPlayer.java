@@ -11,6 +11,8 @@ public class AudioPlayer
 {
     static Clip clip;
     public static void Play(String audioFilePath) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+        if(clip != null)
+            clip.stop();
         File soundFile = new File(audioFilePath);
         AudioInputStream ais = AudioSystem.getAudioInputStream(soundFile);
         Line.Info linfo = new Line.Info(Clip.class);
@@ -22,6 +24,7 @@ public class AudioPlayer
 
     public static void Stop()
     {
-        clip.stop();
+        if(clip != null)
+            clip.stop();
     }
 }

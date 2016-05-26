@@ -244,9 +244,10 @@ public class RTTYDecoder implements Runnable {
 		int byteResultp = 0;
 		int bitResult;
 		
-		while (!Thread.interrupted() && !clipIsDone) {
+		while (!Thread.interrupted()) {
 			waitForStartBit();
-
+			if(clipIsDone)
+				break;
 			System.out.print("0 "); // first bit is the start bit, it's zero
 
 			// reading 7 more bits
