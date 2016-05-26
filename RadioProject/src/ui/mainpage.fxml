@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -51,23 +52,38 @@
                   <Button fx:id="bLoadWav" defaultButton="true" mnemonicParsing="false" onAction="#handlebLoadWav_Click" text="Load .wav File!" />
                </children>
             </HBox>
-            <VBox prefHeight="139.0" prefWidth="600.0">
+            <VBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="139.0" prefWidth="600.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="28.0" prefWidth="600.0">
                      <children>
                         <Label text="Currently Loaded: " />
-                        <Label fx:id="lLoadedShape" text="(none)" />
+                        <Label fx:id="lLoadedShape" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
                      <children>
                         <Label text="Score:" />
-                        <Label fx:id="lLoadedShapeScore" text="(none)" />
+                        <Label fx:id="lLoadedShapeScore" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
+                     <children>
+                        <Label text="Message:" />
+                        <Label fx:id="lLoadedShapeScore1" text="(none)">
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <HBox alignment="TOP_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="37.0" prefWidth="600.0" spacing="15.0" />
          </children>
       </VBox>
    </center>

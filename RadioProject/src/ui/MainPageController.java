@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import org.xml.sax.SAXException;
+import radiosignals.CWSignal;
 import shapecomparison.Shape;
 import shapecomparison.ShapeLibrary;
 import shapecomparison.ShapeResult;
@@ -60,6 +61,32 @@ public class MainPageController
 
                 lLoadedShape.setText(sr.Name);
                 lLoadedShapeScore.setText(Float.toString(sr.Score));
+
+                if(sr.Name.equals("CW")) {
+                    //check this.
+
+                    System.out.print("CW hit");
+
+
+                    CWSignal cw = new CWSignal(file.getAbsolutePath());
+
+                    System.out.print(cw.GetPlainText());
+
+
+                }
+
+                else if(sr.Name.equals("RTTY")) {
+
+                    System.out.print("RTTY hit");
+
+
+                    
+
+                }
+
+                else {
+
+                }
 
 
             } catch (Exception e) {
