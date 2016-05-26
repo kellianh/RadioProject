@@ -12,7 +12,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainPageController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -75,7 +77,7 @@
                   <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
                      <children>
                         <Label text="Message:" />
-                        <Label fx:id="lLoadedShapeScore1" text="(none)">
+                        <Label fx:id="lMessage" text="(none)">
                            <padding>
                               <Insets left="10.0" />
                            </padding>

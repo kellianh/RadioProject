@@ -28,6 +28,7 @@ public class MainPageController
 
     public Label lLoadedShape;
     public Label lLoadedShapeScore;
+    public Label lMessage;
 
     public TextField tfAddShapeName;
 
@@ -62,30 +63,22 @@ public class MainPageController
                 lLoadedShape.setText(sr.Name);
                 lLoadedShapeScore.setText(Float.toString(sr.Score));
 
+                //Print contents for CW type
                 if(sr.Name.equals("CW")) {
                     //check this.
-
-                    System.out.print("CW hit");
-
-
                     CWSignal cw = new CWSignal(file.getAbsolutePath());
 
-                    System.out.print(cw.GetPlainText());
-
-
+                    lMessage.setText(cw.GetPlainText());
                 }
 
                 else if(sr.Name.equals("RTTY")) {
-
-                    System.out.print("RTTY hit");
-
-
-                    
+                    //lMessage.setText();
 
                 }
 
+                //Else case:
                 else {
-
+                    lMessage.setText("Wave type unable to be decoded.");
                 }
 
 
