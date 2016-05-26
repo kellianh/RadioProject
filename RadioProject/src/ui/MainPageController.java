@@ -38,6 +38,8 @@ public class MainPageController
     //ShapeLibrary sl = new ShapeLibrary("test");
     Shape currentShape;
 
+
+    //Main button - Load
     public void handlebLoadWav_Click()
     {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("WAV files (*.wav)", "*.wav");
@@ -51,12 +53,14 @@ public class MainPageController
         if (file != null)
         {
             try {
+                //decode and display
                 byte[] audioBytes = FileTools.ReadFileToByteArray(file.getAbsolutePath());
                 currentShape = recognizer.DetermineShape(audioBytes);
                 ShapeResult sr = currentShape.Recognize(sl);
 
                 lLoadedShape.setText(sr.Name);
                 lLoadedShapeScore.setText(Float.toString(sr.Score));
+
 
             } catch (Exception e) {
                 ErrorHandler.HandleException(e, "handlebLoadWav_Click");
@@ -68,6 +72,8 @@ public class MainPageController
         }
     }
 
+
+    //add to databases
     public void handlebAddShapeToLibrary()
     {
         if(!tfAddShapeName.getText().equals(""))
